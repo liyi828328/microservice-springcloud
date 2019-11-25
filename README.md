@@ -1,4 +1,4 @@
-# SpringCloud
+# 基于SpringCloud微服务搭建
 ## 一、版本兼容性问题：
 
 | Spring Cloud             | Spring Boot                                    |
@@ -182,6 +182,174 @@
     </dependencies>
 </project>
 ```
+
+#### 4） 修改Eureka 注册中心工程文件application.yml
+
+```.yml
+# >>>>> 8760注册中心 application.yml <<<<<
+server:
+  port: 8760
+eureka:
+  instance:
+    hostname: eureka8760.com
+  client:
+    register-with-eureka: false #不将自己注册到eureka
+    fetch-registry: false #不从eureka上获取服务的注册信息
+    service-url:
+      defaultZone: http://eureka8761.com:8761/eureka/,http://eureka8762.com:8762/eureka/ #集群
+  server:
+    enable-self-preservation: true #开启自我保护机制
+
+# >>>>> 8761注册中心 application.yml <<<<<
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: eureka8761.com
+  client:
+    register-with-eureka: false #不将自己注册到eureka
+    fetch-registry: false #不从eureka上获取服务的注册信息
+    service-url:
+      defaultZone: http://eureka8760.com:8760/eureka/,http://eureka8762.com:8762/eureka/
+  server:
+    enable-self-preservation: true #开启自我保护机制
+
+# >>>>> 8762注册中心 application.yml <<<<<
+server:
+  port: 8762
+eureka:
+  instance:
+    hostname: eureka8762.com
+  client:
+    register-with-eureka: false #不将自己注册到eureka
+    fetch-registry: false #不从eureka上获取服务的注册信息
+    service-url:
+      defaultZone: http://eureka8760.com:8760/eureka/,http://eureka8761.com:8761/eureka/
+  server:
+    enable-self-preservation: true #开启自我保护机制
+```
+
+ 如果是本地测试可通过修改host文件添加相关域名指向
+
+#### 5）添加启动方法（@EnableEurekaServer）
+
+```.java
+@EnableEurekaServer
+@SpringBootApplication
+public class EurekaServer8760Application {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaServer8760Application.class, args);
+    }
+}
+```
+
+### 3、创建服务提供者（provider-books）
+
+#### 1）工程创建
+
+  	 同上注册中心创建
+
+#### 2）编写相关 Service Dao Controller 等相关代码
+
+#### 3）修改application.yml，添加注册中心相关配置
+
+```.yml
+server:
+  port: 8001
+spring:
+  application:
+    name: provider-books #这个name很重要，用于服务注册
+#... 省略其他配置 ...
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka8760.com:8760/eureka/,http://eureka8761.com:8761/eureka/,http://eureka8762.com:8762/eureka/
+  instance:
+    instance-id: provider-books8001
+    prefer-ip-address: true
+#... 省略其他配置 ...
+```
+
+#### 4）启动服务 
+
+  启动服务后即可完成注册，可到eureka后台查看。
+
+![image](https://github.com/liyi828328/microservice-springcloud/raw/master/screenshot/eureka_1.png)
+
+ ### 4、创建服务消费者（consumer-books）
+
+#### 1）工程创建
+
+  同上注册中心创建 
+
+#### 2）修改application.yml
+
+```.yml
+server:
+  port: 9001
+spring:
+  application:
+    name: consumer-books
+  jackson:
+    default-property-inclusion: non_null   #如果返回的对象为空则不展示
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka8760.com:8760/eureka/,http://eureka8761.com:8761/eureka/,http://eureka8762.com:8762/eureka/
+  instance:
+    instance-id: consumer-books9001
+    prefer-ip-address: true
+```
+
+####3）创建RestTemplate配置文件 
+
+  消费者访问服务通过RestTemplate发送http请求的方式访问
+
+```.java
+@Configuration
+public class ConsumerConfig {
+    @Bean
+    @LoadBalanced //TODO:集群情况下需要加负载
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+#### 4）服务访问
+
+```.java
+@RestController
+public class ConsumerController {
+
+    private static final String REST_PREFIX = "http://PROVIDER-BOOKS/";
+
+    @Autowired //注入RestTemplate
+    private RestTemplate restTemplate;
+
+
+    @PostMapping("/consumer/book/add")
+    public Boolean add(@RequestBody Book book) {
+        //服务访问需要使用相关连接,url拼接方式为http://服务提供者名称/服务相关接口
+        ResponseEntity<Boolean> reponse = restTemplate.postForEntity(REST_PREFIX + "/book/add",
+                book, Boolean.class);
+        System.out.println(reponse.toString());
+        return reponse.getBody();
+    }
+
+    @GetMapping("/consumer/book/list")
+    public List<Book> list() {
+        String url = REST_PREFIX + "/book/list";
+        List forObject = restTemplate.getForObject(url, List.class);
+        return forObject;
+    }
+    
+    //其它接口访问
+
+}
+```
+
+
 
 #### 我在这里有几个坑点 ，需要踩一下 
 
