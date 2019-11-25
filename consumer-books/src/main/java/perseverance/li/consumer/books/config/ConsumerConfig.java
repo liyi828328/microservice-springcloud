@@ -7,15 +7,15 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * ---------------------------------------------------------------
- * Author: LiYi
- * Email: yi.li@yulore.com
+ * Author: perseverance_li
+ * Email: perseverance_li@126.com
  * Create: 2019-11-22 14:38
  * ---------------------------------------------------------------
  * Describe:
  * ---------------------------------------------------------------
  * Changes:
  * ---------------------------------------------------------------
- * 2019-11-22 14:38 : Create by LiYi
+ * 2019-11-22 14:38 : Create by perseverance_li
  * ---------------------------------------------------------------
  */
 @Configuration
