@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>perseverance.li</groupId>
+    <artifactId>microservice-springcloud</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging> <!-- 父工程指定packaging为pom -->
+
+    <properties>
+        <!-- 配置jdk版本,编码等 -->
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- 指定相关依赖的版,公共依赖可在父pom中指定 -->
+        <spring-boot.version>2.1.10.RELEASE</spring-boot.version>
+        <spring-cloud.version>Greenwich.SR4</spring-cloud.version>
+        <mybatis.version>2.1.1</mybatis.version>
+        <druid.version>1.1.20</druid.version>
+        <mysql.connector.version>5.1.48</mysql.connector.version>
+    </properties>
+
+    <!-- 声明所有子项目 -->
+    <modules>
+        <module>eureka-server-8760</module>
+        <module>eureka-server-8761</module>
+        <module>eureka-server-8762</module>
+        <module>provider-books</module>
+        <module>consumer-books</module>
+        <module>base-api</module>
+    </modules>
+
+    <!-- 公共的依赖需要在dependencyManagement中声明,
+        子项目引入时则只需要使用dependencies.dependency引入即可,不用再指定版本,会继承父pom中指定的版本 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- mybatis starter -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!-- druid starter -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!-- mysql connector -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

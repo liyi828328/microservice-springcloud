@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- 继承父工程 -->
+    <parent>
+        <groupId>perseverance.li</groupId>
+        <artifactId>microservice-springcloud</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <!-- 因为继承了父工程,这里可以去掉GV两个设置,保留A即可 -->
+    <artifactId>eureka-server-8760</artifactId>
+    <description>eureka server port 8760</description>
+
+    <!-- 打包为可执行的jar或者war包 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.0.RELEASE</version>
+                <configuration>
+                    <mainClass>perseverance.li.eureka.server.EurekaServer8760Application</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- 引入依赖,如果已经父工程中声明,这里引入时不需要指定version -->
+        <!-- 引入非父工程声明的依赖时,需要指定版本 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+    </dependencies>
+</project>
