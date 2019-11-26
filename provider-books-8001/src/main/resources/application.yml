@@ -1,0 +1,41 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: provider-books
+  jackson:
+    default-property-inclusion: non_null   #如果返回的对象为空则不展示
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/microservice_springcloud-8001?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&useSSL=false
+      username: root
+      password: Yulore_dhb_csf@832919
+      initial-size: 10
+      min-idle: 10
+      max-active: 50
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      validation-query: SELECT 1
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka8760.com:8760/eureka/,http://eureka8761.com:8761/eureka/,http://eureka8762.com:8762/eureka/
+  instance:
+    instance-id: provider-books8001
+    prefer-ip-address: true
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+info:
+  app:
+    name: provider-books8001
+    build:
+      artifactId: provider-books
+      version: 1.0.0
+

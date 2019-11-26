@@ -30,7 +30,9 @@
         <module>eureka-server-8760</module>
         <module>eureka-server-8761</module>
         <module>eureka-server-8762</module>
-        <module>provider-books</module>
+        <module>provider-books-8001</module>
+        <module>provider-books-8002</module>
+        <module>provider-books-8003</module>
         <module>consumer-books</module>
         <module>base-api</module>
     </modules>

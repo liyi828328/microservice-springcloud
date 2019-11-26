@@ -159,7 +159,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.1.0.RELEASE</version>
-                <configuration>			          <mainClass>perseverance.li.eureka.server.EurekaServer8760Application</mainClass>
+                <configuration>			          
+                    <mainClass>perseverance.li.eureka.server.EurekaServer8760Application</mainClass>
                 </configuration>
                 <executions>
                     <execution>
