@@ -1,7 +1,6 @@
 package perseverance.li.consumer.config;
 
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
-import perseverance.li.rules.BookRule;
 import perseverance.li.rules.UserRule;
 
 /**
