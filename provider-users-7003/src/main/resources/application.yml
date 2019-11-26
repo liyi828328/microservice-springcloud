@@ -1,14 +1,14 @@
 server:
-  port: 8002
+  port: 7003
 spring:
   application:
-    name: provider-books
+    name: provider-users
   jackson:
-    default-property-inclusion: non_null   #如果返回的对象为空则不展示
+    default-property-inclusion: non_null
   datasource:
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/microservice_springcloud-db2?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&useSSL=false
+      url: jdbc:mysql://127.0.0.1:3306/microservice_springcloud-db3?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&useSSL=false
       username: root
       password: Yulore_dhb_csf@832919
       initial-size: 10
@@ -26,7 +26,7 @@ eureka:
     service-url:
       defaultZone: http://eureka8760.com:8760/eureka/,http://eureka8761.com:8761/eureka/,http://eureka8762.com:8762/eureka/
   instance:
-    instance-id: provider-books8002
+    instance-id: provider-user7003
     prefer-ip-address: true
 mybatis:
   configuration:
@@ -34,8 +34,7 @@ mybatis:
 
 info:
   app:
-    name: provider-books8002
+    name: provider-user7003
     build:
-      artifactId: provider-books-8002
+      artifactId: provider-user-7003
       version: 1.0.0
-

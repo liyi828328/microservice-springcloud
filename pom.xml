@@ -33,7 +33,10 @@
         <module>provider-books-8001</module>
         <module>provider-books-8002</module>
         <module>provider-books-8003</module>
-        <module>consumer-books</module>
+        <module>provider-users-7001</module>
+        <module>provider-users-7002</module>
+        <module>provider-users-7003</module>
+        <module>consumer</module>
         <module>base-api</module>
     </modules>
 

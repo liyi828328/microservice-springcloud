@@ -8,7 +8,7 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/microservice_springcloud-8001?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&useSSL=false
+      url: jdbc:mysql://127.0.0.1:3306/microservice_springcloud-db1?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&useSSL=false
       username: root
       password: Yulore_dhb_csf@832919
       initial-size: 10
@@ -36,6 +36,6 @@ info:
   app:
     name: provider-books8001
     build:
-      artifactId: provider-books
+      artifactId: provider-books-8001
       version: 1.0.0
 

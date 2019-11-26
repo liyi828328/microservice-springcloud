@@ -4,15 +4,15 @@ import perseverance.li.entities.ResponseCode;
 
 /**
  * ---------------------------------------------------------------
- * Author: LiYi
- * Email: yi.li@yulore.com
+ * Author: perseverance_li
+ * Email: perseverance_li@126.com
  * Create: 2019-11-25 15:25
  * ---------------------------------------------------------------
  * Describe:
  * ---------------------------------------------------------------
  * Changes:
  * ---------------------------------------------------------------
- * 2019-11-25 15:25 : Create by LiYi
+ * 2019-11-25 15:25 : Create by perseverance_li
  * ---------------------------------------------------------------
  */
 public class BaseException extends RuntimeException {
