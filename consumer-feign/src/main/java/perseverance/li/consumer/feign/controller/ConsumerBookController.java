@@ -28,12 +28,12 @@ public class ConsumerBookController {
     @Autowired
     private FeignBookService bookService;
 
-    @GetMapping("/consumer/book/get/{id}")
+    @GetMapping("/consumer/feign/book/get/{id}")
     public Book get(@PathVariable("id") Integer id) {
         return bookService.get(id);
     }
 
-    @GetMapping("/consumer/book/list")
+    @GetMapping("/consumer/feign/book/list")
     public List<Book> list() {
         return bookService.list();
     }

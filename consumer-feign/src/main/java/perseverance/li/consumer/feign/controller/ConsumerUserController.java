@@ -28,12 +28,12 @@ public class ConsumerUserController {
     @Autowired
     private FeignUserService userService;
 
-    @GetMapping("/consumer/user/get/{id}")
+    @GetMapping("/consumer/feign/user/get/{id}")
     public User get(@PathVariable("id") Integer id) {
         return userService.get(id);
     }
 
-    @GetMapping("/consumer/user/list")
+    @GetMapping("/consumer/feign/user/list")
     public List<User> list() {
         return userService.list();
     }
