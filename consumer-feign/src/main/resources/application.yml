@@ -1,0 +1,40 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: consumer-feign
+  jackson:
+    default-property-inclusion: non_null   #如果返回的对象为空则不展示
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss:S
+eureka:
+  client:
+    register-with-eureka: false #不将自己注册到eureka
+    service-url:
+      defaultZone: http://eureka8760.com:8760/eureka/,http://eureka8761.com:8761/eureka/,http://eureka8762.com:8762/eureka/
+  instance:
+    instance-id: consumer-feign
+    prefer-ip-address: true
+
+#okhttp连接池配置
+okhttp:
+  read-timeout: 30
+  write-timeout: 30
+  connection-timeout: 30
+  max-idle-connections: 10
+  keep-alive-duration: 60
+
+#feign配置负载均衡规则,默认使用 ribbon 的 RoundRobinRule 轮询算法
+PROVIDER-BOOKS:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+PROVIDER-USERS:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+#使用okhttp发送http请求,禁用默认的httpclient
+feign:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+

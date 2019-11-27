@@ -37,6 +37,7 @@
         <module>provider-users-7002</module>
         <module>provider-users-7003</module>
         <module>consumer</module>
+        <module>consumer-feign</module>
         <module>base-api</module>
     </modules>
 
