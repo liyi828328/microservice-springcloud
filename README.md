@@ -73,8 +73,13 @@
         <module>eureka-server-8760</module>
         <module>eureka-server-8761</module>
         <module>eureka-server-8762</module>
-        <module>provider-books</module>
-        <module>consumer-books</module>
+        <module>provider-books-8001</module>
+        <module>provider-books-8002</module>
+        <module>provider-books-8003</module>
+        <module>provider-users-7001</module>
+        <module>provider-users-7002</module>
+        <module>provider-users-7003</module>
+        <module>consumer</module>
         <module>base-api</module>
     </modules>
 
@@ -252,6 +257,16 @@ public class EurekaServer8760Application {
 
 #### 2）编写相关 Service Dao Controller 等相关代码
 
+```.java
+@SpringBootApplication
+@EnableEurekaClient #增加Eureka客户端注解
+public class ProviderBooks8001Application {
+    public static void main(String[] args) {
+        SpringApplication.run(ProviderBooks8001Application.class, args);
+    }
+}
+```
+
 #### 3）修改application.yml，添加注册中心相关配置
 
 ```.yml
@@ -277,7 +292,7 @@ eureka:
 
 ![image](https://github.com/liyi828328/microservice-springcloud/raw/master/screenshot/eureka_1.png)
 
- ### 4、创建服务消费者（consumer-books）
+ ### 4、创建服务消费者（consumer）
 
 #### 1）工程创建
 
@@ -317,7 +332,21 @@ public class ConsumerConfig {
 }
 ```
 
-#### 4）服务访问
+####4）增加@EnableEurekaClient注解
+
+```.java
+@SpringBootApplication
+@EnableEurekaClient
+public class ConsumerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConsumerApplication.class, args);
+    }
+}
+```
+
+
+
+#### 5）服务访问
 
 ```.java
 @RestController
@@ -350,7 +379,52 @@ public class ConsumerController {
 }
 ```
 
+#### 6）添加客户端负载均衡
 
+默认情况下客户端使用的负载均衡机制为轮询机制，可以针对每个服务定制不同的客户端负载均衡机制。
+
+负载均衡机制默认可使用 Ribbon来定制
+
+针对Book服务添加客户端负载均衡机制
+
+```.java
+//name 服务名称  configuration指定定制的负载均衡类
+@RibbonClient(name = "PROVIDER-BOOKS",configuration = BookRule.class)
+public class BookServiceConfig {
+}
+```
+
+```.java
+@Configuration
+public class BookRule {
+    @Bean
+    public IRule myBookRule(){
+    		//这里可以根据规范自定义负载规则
+        return new RandomRule();
+    }
+}
+```
+
+针对User服务添加客户端负载均衡机制
+
+```.java
+@RibbonClient(name = "PROVIDER-USERS",configuration = UserRule.class)
+public class UserServiceConfig {
+}
+```
+
+```.java
+@Configuration
+public class UserRule {
+    @Bean
+    public IRule myUserRule() {
+    		//这里可以根据规范自定义负载规则
+        return new RandomRule();
+    }
+}
+```
+
+注意：BookRule与UserRule不能与@ComponentScan注解在同包以及子包下，否则会被全局使用。
 
 #### 我在这里有几个坑点 ，需要踩一下 
 
